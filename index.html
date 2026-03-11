@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>경주월드 설문조사</title>
+  <meta name="description" content="문진주씨, 경주월드 같이 갈래?" />
+
+  <!-- 링크 미리보기용 -->
+  <meta property="og:title" content="경주월드 설문조사" />
+  <meta property="og:description" content="문진주씨, 경주월드 같이 갈래?" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="01.jpg" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <!-- 트위터/일부 플랫폼용 -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="경주월드 설문조사" />
+  <meta name="twitter:description" content="문진주씨, 경주월드 같이 갈래?" />
+  <meta name="twitter:image" content="01.jpg" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      overflow: hidden;
+
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url("01.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 0.5s ease;
+
+      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 22px;
+      line-height: 1.6;
+      margin: 0 0 24px;
+      color: #222;
+    }
+
+    .btn-container {
+      position: relative;
+      width: 280px;
+      height: 90px;
+      margin: 0 auto;
+      touch-action: manipulation;
+    }
+
+    .btn {
+      position: absolute;
+      width: 120px;
+      height: 48px;
+      border: none;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      z-index: 20;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .yes {
+      left: 0;
+      top: 0;
+      background: #ff4d6d;
+      color: #fff;
+    }
+
+    .no {
+      left: 160px;
+      top: 0;
+      background: #dcdcdc;
+      color: #111;
+    }
+
+    .result {
+      margin-top: 22px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #ff4d6d;
+      display: none;
+    }
+
+    .sub-text {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .heart {
+      position: fixed;
+      pointer-events: none;
+      animation: floatUp 2.8s linear forwards;
+      z-index: 5;
+      font-size: 24px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-300px) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .btn-container {
+        width: 260px;
+      }
+
+      .btn {
+        width: 110px;
+        font-size: 15px;
+      }
+
+      .no {
+        left: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>
+      문진주씨<br />
+      경주월드 같이 갈래?
+    </h1>
+
+    <div class="btn-container" id="btnArea">
+      <button class="btn yes" id="yesBtn" type="button">Yes</button>
+      <button class="btn no" id="noBtn" type="button">No</button>
+    </div>
+
+    <div class="result" id="result">❤️ 경주월드 확정 ❤️</div>
+    <div class="sub-text" id="subText">솔직하게 눌러주세요 😎</div>
+  </div>
+
+  <script>
+    (function () {
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const btnArea = document.getElementById("btnArea");
+      const result = document.getElementById("result");
+      const subText = document.getElementById("subText");
+
+      if (!yesBtn || !noBtn || !btnArea) return;
+
+      let accepted = false;
+
+      yesBtn.addEventListener("click", function () {
+        if (accepted) return;
+        accepted = true;
+
+        document.body.style.backgroundImage =
+          'linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("02.jpg")';
+
+        result.style.display = "block";
+        subText.textContent = "이제 못 도망가 😏";
+
+        createHearts();
+      });
+
+      function createHearts() {
+        for (let i = 0; i < 24; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.textContent = Math.random() > 0.5 ? "❤️" : "💖";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.top = window.innerHeight + 20 + "px";
+          heart.style.animationDuration = (2 + Math.random() * 1.5) + "s";
+          document.body.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 3500);
+        }
+      }
+
+      function moveNo() {
+        if (accepted) return;
+
+        const areaWidth = btnArea.clientWidth;
+        const areaHeight = btnArea.clientHeight;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        const maxX = Math.max(0, areaWidth - btnWidth);
+        const maxY = Math.max(0, areaHeight - btnHeight);
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+      }
+
+      // PC
+      noBtn.addEventListener("mouseenter", moveNo);
+
+      // 모바일
+      noBtn.addEventListener("touchstart", function (e) {
+        e.preventDefault();
+        moveNo();
+      }, { passive: false });
+
+      // 클릭 방지
+      noBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        moveNo();
+      });
+    })();
+  </script>
+</body>
+</html>
